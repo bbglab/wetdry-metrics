@@ -1,0 +1,8 @@
+[
+    {
+        "name": <run_batch_name>, 
+        "path": <absolute_path_to_run>,
+        "parallel": true if params.split_by_chromosome or (input fastqs provided in multiple lanes) else false
+    }
+
+]
