@@ -7,8 +7,18 @@ Compilation and analysis of wet lab and dry lab metrics from duplex-seq experime
 ```{bash}
 git clone https://github.com/bbglab/wetdry-metrics.git
 cd wetdry-metrics
-conda env create -f environment.yml
-conda activate metrics-env
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+Optional (using `uv`):
+
+```bash
+uv venv
+source .venv/bin/activate
+uv pip install -r requirements.txt
 ```
 
 ## How to run it
@@ -41,8 +51,10 @@ Update the `runs_list.json` file, also provided as a template, with the new info
 3. Create an environment with the required dependencies:
 
 ```bash
-conda env create -f environment.yml
-conda activate metrics-env
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
 4. Run the metrics compilation script with the following command:
