@@ -4,7 +4,7 @@ Compilation and analysis of wet lab and dry lab metrics from duplex-seq experime
 
 ## Create an environment with the required packages
 
-```{bash}
+```bash
 git clone https://github.com/bbglab/wetdry-metrics.git
 cd wetdry-metrics
 python3 -m venv .venv
@@ -23,7 +23,7 @@ uv pip install -r requirements.txt
 
 ## How to run it
 
-```{bash}
+```bash
 cd scripts
 python BuildWetDryMetrics.py --runs_list runs_list.json \
             --output_data_dir <output_directory> \
