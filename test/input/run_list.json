@@ -1,7 +1,7 @@
 [
     {
         "name": "BloodFA_NOV64and65",
-        "path": "/home/rchamorro/projects/Protocols_metrics/wetdry_metrics/test/input/metrics_test",
+        "path": "test/input/metrics_test",
         "parallel": true
     }
 

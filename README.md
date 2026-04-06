@@ -4,6 +4,14 @@ Compilation and analysis of wet lab and dry lab metrics from duplex-seq experime
 
 ## Create an environment with the required packages
 
+Python3 is required to run this scripts. If this is not available in your system, follow the installation instructions here according to your operative system:
+
+- Linux (Ubuntu/Debian): sudo apt install python3 python3-venv python3-pip
+
+- macOS: Install via Homebrew using brew install python or download from python.org.
+
+Once Python3 is installed these will address the specific dependencies of the WetDry metrics' scripts:
+
 ```bash
 git clone https://github.com/bbglab/wetdry-metrics.git
 cd wetdry-metrics
@@ -11,14 +19,6 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
-```
-
-Optional (using `uv`):
-
-```bash
-uv venv
-source .venv/bin/activate
-uv pip install -r requirements.txt
 ```
 
 ## How to run it
@@ -35,6 +35,18 @@ python BuildWetDryMetrics.py --runs_list runs_list.json \
 
 `--plot_dir` flag automatically triggers the plotting of some summary metrics by batch and is also optional.
 
+### Example test run
+
+It is highly recommended to run these commands for a quick test that everything is properly installed and working.
+
+```bash
+mkdir -p test/output/test/
+python scripts/BuildWetDryMetrics.py --runs_list test/input/run_list.json \
+                    --output_data_dir test/output/test/ \
+                    --wetlab_qc_metrics_file test/input/wetlab_qc_metrics.xlsx \
+                    --plot_dir test/output/test/
+```
+
 ## Entire procedure description
 
 1. (optional; highly recommended) Collect the library prep metrics in the standardized format provided via the template (wetlab_qc_metrics.xlsx) available in the GitHub repository. (https://github.com/bbglab/wetdry-metrics)
@@ -46,7 +58,7 @@ git clone https://github.com/bbglab/wetdry-metrics.git
 cd wetdry-metrics
 ```
 
-Update the `runs_list.json` file, also provided as a template, with the new information from your last run. Add a name of the run and the path to its’ deepUMIcaller output directory.
+Update the `runs_list.json` file, also provided as a template, with the new information from your last run. Add a name of the run and the **full path** to its’ deepUMIcaller output directory.
 
 3. Create an environment with the required dependencies:
 
