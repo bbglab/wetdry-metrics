@@ -247,17 +247,35 @@ def compute_drylab_metrics_table(runs_list, output_data_dir):
         print(f"Name: {run[0]}, Path: {run[1]}, Parallel : {run[2]}")
 
     # Specify the metrics path
-    family_metrics_relative_path = 'familymetrics'
+    metrics_relative_path_options = ['metrics/duplex/familymetrics', 'familymetrics']
 
-    #### Generate metrics for missing runs
+    # Generate metrics for missing runs
     all_data = pd.DataFrame()
 
-    for i, path_run, par_chr in runs_list_missing:
+    for i, path_run, split_fq in runs_list_missing:
+        list_sample_qualities = ['raw_qc', 'allm_qc']
+        # print(i)
+        data_family_complete = None
+        last_exception = None
+        for metrics_relative_path in metrics_relative_path_options:
+            try:
+                path_metrics = f"{path_run}/{metrics_relative_path}"
+                data_family_complete = compute_metrics_from_familymetrics(path_metrics)
+                # Successfully loaded metrics; no need to try other paths
+                break
+            except Exception as e:
+                # Record the exception and try the next possible metrics path
+                last_exception = e
+                continue
 
-        path_metrics = f"{path_run}/{family_metrics_relative_path}"
-
-        #### Compute family metrics : all, on_target and off_target
-        data_family_complete = compute_metrics_from_familymetrics(path_metrics)
+        if data_family_complete is None:
+            # All metrics paths failed for this run; report and skip to next run
+            print(
+                f"Error occurred while obtaining the family metrics for {i}.\n"
+                f"Tried paths: {metrics_relative_path_options}.\n"
+                f"Last error: {last_exception}"
+            )
+            continue
 
         #### Define info columns : TISSUE, ANALYSIS BATCH, PATH
         data_family_complete["Run ID"] = '_'.join(i.split("_")[:2])
