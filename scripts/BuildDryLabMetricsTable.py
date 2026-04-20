@@ -315,20 +315,19 @@ def compute_drylab_metrics_table(runs_list, output_data_dir):
 
         #### if parallel option was used, bamqc data needs to be compile - only for raw
         # Sanity checks : parallel option
-        if not par_chr and bamqc_raw['sample'].str.contains('LPART').any():
+        if not split_fq and bamqc_raw['sample'].str.contains('LPART').any():
             raise ValueError(
                 f"In {i}, parallel is set to False but sample names indicate parallel chromosome processing. "
                 "Please check the input data."
             )
 
-        if par_chr and not bamqc_raw['sample'].str.contains('LPART').any():
+        if split_fq and not bamqc_raw['sample'].str.contains('LPART').any():
             raise ValueError(
                 f"In {i}, parallel is set to True but sample names indicate parallel chromosome processing WAS NOT applied. "
                 "Please check the input data."
             )
 
-        if par_chr:
-
+        if split_fq:
             # split sample column in two columns 'sample_id' and part
             bamqc_raw['part'] = [sid.split('_')[-1] for sid in bamqc_raw['sample']]
             bamqc_raw['new_sampleid'] = [
@@ -386,7 +385,7 @@ def compute_drylab_metrics_table(runs_list, output_data_dir):
         fastqc_info = load_fastqc_data(
             general_stats[header_2_index['fastqc']],
             ['total_sequences', 'percent_duplicates', 'percent_gc'],
-            parallel=par_chr
+            parallel=split_fq
         )
 
         # Translate analysed data to Gbs
