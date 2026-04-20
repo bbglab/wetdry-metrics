@@ -75,7 +75,6 @@ informative_columns = [
                         'FamMetrics>>on_target.duplex.duplex_raw_x_dscs',
                         'FamMetrics>>off_target.duplex.raw_x_dscs',
                         
-                        'FamMetrics>>on_target.raw_reads',
-                        'FamMetrics>>off_target.raw_reads',
+                        'BamQC>>raw.percentage_aligned_on_target',
                         
                         ]   

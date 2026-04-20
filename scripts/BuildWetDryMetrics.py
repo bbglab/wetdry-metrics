@@ -109,7 +109,6 @@ def build_consolidated_metrics_table(runs_list,
         consolidated_metrics[f'Combined>>Recovery input to depth'] = consolidated_metrics[f"DryLab>>Depth"] / \
                                                                             (consolidated_metrics['WetLab>>Input (ng)'] / genome_weight)
 
-        print(list(consolidated_metrics.columns))
         # 6. Select informative columns and store table
         consolidated_metrics_informative = consolidated_metrics[informative_columns]
         consolidated_metrics_informative.to_csv(f'{output_data_dir}/WetDryMetrics.tsv', sep = '\t', header = True, index = False)
