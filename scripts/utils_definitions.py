@@ -32,6 +32,11 @@ informative_columns_drylab = [
                             "DryLab>>SSC to DSC",
                             "DryLab>>Raw to DSC",
                             "DryLab>>Amplification bias on/off",
+                            'FamMetrics>>on_target.duplex.raw_x_dscs',
+                            'FamMetrics>>off_target.duplex.raw_x_dscs',
+                            
+                            'FamMetrics>>on_target.raw_reads',
+                            'FamMetrics>>off_target.raw_reads',
                             ]
 
 informative_columns = [
@@ -66,4 +71,11 @@ informative_columns = [
                         "DryLab>>SSC to DSC",
                         "DryLab>>Raw to DSC",
                         "DryLab>>Amplification bias on/off",
+
+                        'FamMetrics>>on_target.duplex.duplex_raw_x_dscs',
+                        'FamMetrics>>off_target.duplex.raw_x_dscs',
+                        
+                        'FamMetrics>>on_target.raw_reads',
+                        'FamMetrics>>off_target.raw_reads',
+                        
                         ]   
