@@ -60,9 +60,11 @@ informative_columns = [
                         'DryLab>>GBs (analyzed-optimal)',
 
                         "DryLab>>Depth", # depth
+                        "OUTDATED_DryLab>>Depth",
                         
                         "Combined>>Unique molecules sequenced vs qPCR",
                         "Combined>>Recovery input to depth",
+                        "OUTDATED_Combined>>Recovery input to depth",
 
                         'DryLab>>On-target unique molecules percentage',
 

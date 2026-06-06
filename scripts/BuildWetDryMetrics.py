@@ -106,8 +106,12 @@ def build_consolidated_metrics_table(runs_list,
         consolidated_metrics['Combined>>Unique molecules sequenced vs qPCR'] = consolidated_metrics['FamMetrics>>on_target.unique_molecules'] / consolidated_metrics['WetLab>>qPCR unique molecules']
 
         # 5. Calculate Recovery input to duplex depth
+        consolidated_metrics[f'OUTDATED_Combined>>Recovery input to depth'] = consolidated_metrics[f"OUTDATED_DryLab>>Depth"] / \
+                                                                            (consolidated_metrics['WetLab>>Input (ng)'] / genome_weight)
+
         consolidated_metrics[f'Combined>>Recovery input to depth'] = consolidated_metrics[f"DryLab>>Depth"] / \
                                                                             (consolidated_metrics['WetLab>>Input (ng)'] / genome_weight)
+
 
         # 6. Select informative columns and store table
         consolidated_metrics_informative = consolidated_metrics[informative_columns]
