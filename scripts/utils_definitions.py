@@ -32,6 +32,11 @@ informative_columns_drylab = [
                             "DryLab>>SSC to DSC",
                             "DryLab>>Raw to DSC",
                             "DryLab>>Amplification bias on/off",
+                            'FamMetrics>>on_target.duplex.raw_x_dscs',
+                            'FamMetrics>>off_target.duplex.raw_x_dscs',
+                            
+                            'FamMetrics>>on_target.raw_reads',
+                            'FamMetrics>>off_target.raw_reads',
                             ]
 
 informative_columns = [
@@ -55,9 +60,11 @@ informative_columns = [
                         'DryLab>>GBs (analyzed-optimal)',
 
                         "DryLab>>Depth", # depth
+                        "OUTDATED_DryLab>>Depth",
                         
                         "Combined>>Unique molecules sequenced vs qPCR",
                         "Combined>>Recovery input to depth",
+                        "OUTDATED_Combined>>Recovery input to depth",
 
                         'DryLab>>On-target unique molecules percentage',
 
@@ -66,4 +73,10 @@ informative_columns = [
                         "DryLab>>SSC to DSC",
                         "DryLab>>Raw to DSC",
                         "DryLab>>Amplification bias on/off",
+
+                        'FamMetrics>>on_target.duplex.duplex_raw_x_dscs',
+                        'FamMetrics>>off_target.duplex.raw_x_dscs',
+                        
+                        'BamQC>>raw.percentage_aligned_on_target',
+                        
                         ]   

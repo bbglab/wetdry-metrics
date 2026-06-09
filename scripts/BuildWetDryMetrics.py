@@ -79,10 +79,16 @@ def build_consolidated_metrics_table(runs_list,
 
         # OPTIONAL: if plot_dir provided, plot metrics in pdf
         if plot_dir :
-            plot_metrics(drylab_metrics, 
-                        output_plot_dir=plot_dir)
+
+            try :
+
+                plot_metrics(drylab_metrics, 
+                            output_plot_dir=plot_dir)
+                
+                click.echo(f'\n\nMetrics plots saved in {plot_dir}')
             
-            click.echo(f'\n\nMetrics plots saved in {plot_dir}')
+            except Exception as e  :
+                click.echo(f'\n\nError in generating plots for dry lab metrics {e}')
 
         return
     
@@ -99,6 +105,7 @@ def build_consolidated_metrics_table(runs_list,
                                                     left_on='DryLab ID',
                                                     right_on='SAMPLE_ID',
                                                     how='outer')
+        consolidated_metrics["DryLab ID"] = consolidated_metrics["DryLab ID"].fillna(consolidated_metrics["SAMPLE_ID"])
 
         # 4. Compute an estiamtion of the number of unique molecules on target measured by qPCR and compute ratio of unique molecules sequenced vs expected by qPCR
         consolidated_metrics['WetLab>>qPCR unique molecules'] = consolidated_metrics['WetLab>>fmol to PCR1'] * \
@@ -106,6 +113,9 @@ def build_consolidated_metrics_table(runs_list,
         consolidated_metrics['Combined>>Unique molecules sequenced vs qPCR'] = consolidated_metrics['FamMetrics>>on_target.unique_molecules'] / consolidated_metrics['WetLab>>qPCR unique molecules']
 
         # 5. Calculate Recovery input to duplex depth
+        consolidated_metrics[f'OUTDATED_Combined>>Recovery input to depth'] = consolidated_metrics[f"OUTDATED_DryLab>>Depth"] / \
+                                                                            (consolidated_metrics['WetLab>>Input (ng)'] / genome_weight)
+
         consolidated_metrics[f'Combined>>Recovery input to depth'] = consolidated_metrics[f"DryLab>>Depth"] / \
                                                                             (consolidated_metrics['WetLab>>Input (ng)'] / genome_weight)
 
@@ -119,10 +129,14 @@ def build_consolidated_metrics_table(runs_list,
         # 7. OPTIONAL: if plot_dir provided, plot metrics in pdf
 
         if plot_dir :
-            plot_metrics(consolidated_metrics, 
-                        output_plot_dir=plot_dir)
+            try :
+                plot_metrics(consolidated_metrics, 
+                            output_plot_dir=plot_dir)
+                
+                click.echo(f'\n\nMetrics plots saved in {plot_dir}')
             
-            click.echo(f'\n\nMetrics plots saved in {plot_dir}')
+            except Exception as e  :
+                click.echo(f'\n\nError in generating plots for consolidated metrics {e}')
 
 
 if __name__ == "__main__":

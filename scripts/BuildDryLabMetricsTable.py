@@ -2,6 +2,7 @@
 
 import pandas as pd
 import json
+import numpy as np
 
 from utils_definitions import *
 
@@ -9,7 +10,8 @@ from utils_definitions import *
 
 quality_to_shortname = {'raw_qc'    : 'raw',
                         'allm_qc'   : 'am',
-                        'duplex_qc' : 'duplex'
+                        'duplex_qc' : 'duplex',
+                        'final_qc'  : 'final'
                         }
 #### FUNCTIONS ####
 
@@ -302,6 +304,7 @@ def compute_drylab_metrics_table(runs_list, output_data_dir):
         keys_names = {"qualimap_raw": "raw_qc",
                      "qualimap_all": "allm_qc",
                      "qualimap_duplex": "duplex_qc",
+                     "qualimap_final": "final_qc",
                      "fastqc": "fastqc"}
 
         for key in keys_multiqc_dict:
@@ -375,11 +378,20 @@ def compute_drylab_metrics_table(runs_list, output_data_dir):
         # Merge available data
         bam_qc_data_ra = bamqc_raw.merge(bamqc_allm, on='sample', how='left')
         bam_qc_data_ra = bam_qc_data_ra.merge(bamqc_duplex, on='sample', how='left')
+        
+        if 'final_qc' in header_2_index.keys() :
+            bamqc_final = get_qualimap_data(general_stats[header_2_index['final_qc']], quality_to_shortname['final_qc'])
+            list_sample_qualities.append('final_qc')
+            bam_qc_data_ra = bam_qc_data_ra.merge(bamqc_final, on='sample', how='left')
 
         bam_qc_data_ra.columns = ['sample'] + [f'BamQC>>{x}' for x in bam_qc_data_ra.columns[1:]]
 
         # Rename depth column
-        bam_qc_data_ra = bam_qc_data_ra.rename(columns={'BamQC>>duplex.mean_coverage': 'DryLab>>Depth'})
+        bam_qc_data_ra = bam_qc_data_ra.rename(columns={'BamQC>>duplex.mean_coverage': 'OUTDATED_DryLab>>Depth'})
+        if 'BamQC>>final.mean_coverage' in bam_qc_data_ra.columns:
+            bam_qc_data_ra = bam_qc_data_ra.rename(columns={'BamQC>>final.mean_coverage': 'DryLab>>Depth'})
+        else:
+            bam_qc_data_ra["DryLab>>Depth"] = np.nan
 
         #### Load FastQC data
         fastqc_info = load_fastqc_data(
@@ -411,7 +423,7 @@ def compute_drylab_metrics_table(runs_list, output_data_dir):
         #### Calculate GBs analyzed to optimal ratio
         all_data['DryLab>>GBs_analysed/optimal'] = all_data['DryLab>>GBs analysed'] / all_data["DryLab>>Total GBs for optimal"]
 
-    print(f'\n\nDryLab metrics table successfully saved to : {output_data_dir}')
+    print(f'\n\nDryLab metrics table successfully computed')
 
     return all_data
 
